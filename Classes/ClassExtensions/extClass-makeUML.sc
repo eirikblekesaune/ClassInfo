@@ -8,7 +8,6 @@
             classes = classes ++ this.allSubclasses;
         });
         result = this.makeUMLForClasses(classes, outputFilepath, openWhenDone);
-
         ^result;
     }
 
