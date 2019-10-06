@@ -54,7 +54,6 @@
         classes.do({arg cls;
             result = result ++ cls.prMakeDotfileStringForClass();
         });
-
 		//draw connections
 		classes.do({arg class;
 			if(classes.includes(class.superclass), {
