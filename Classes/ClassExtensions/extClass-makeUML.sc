@@ -172,4 +172,83 @@
         });
         ^result;
     }
+
+	dotUMLString{
+		var str;
+		str = "\t% [".format(this.name) << "\n";
+		str = str ++ "\t\tlabel = ";
+		str = str ++ "\"{%|%|%}\"".format(
+			this.name,
+			this.instVarDotUMLString,
+			this.methodDotUMLString
+		);
+		str = str ++ "\n";
+		str = str ++ "\t]" << "\n";
+		^str;
+	}
+
+	instVarDotUMLString{
+		var result;
+		this.classVarNames.do({arg instVarName;
+			result = result ++ "% %\\l".format(
+				"*", //getset
+				instVarName
+			);
+		});
+
+		this.instVars.do({arg instVarName;
+			result = result ++ "% %\\l".format(
+				"-", //getset
+				instVarName
+			);
+		});
+		^result;
+	}
+
+	methodDotUMLString{
+		var result;
+		var escapeChars = {arg str;
+			var result = str;
+			[$\\, $", $>, $<, $|].do({arg it;
+				result = result.escapeChar(it);
+			});
+			result;
+		};
+		this.methods.do({arg it;
+			var args = "";
+			if(it.argNames.size > 1, {
+				args = it.argumentString;
+			});
+			result = result ++ "* %( % )\\l".format(
+				escapeChars.value(it.name.asString),
+				escapeChars.value(args)
+			);
+			escapeChars.value(result);
+		});
+
+		this.methods.reject({arg it;
+			it.hasCorrespondingInstVar;
+		}).do({arg it;
+			var args = "";
+			if(it.argNames.size > 1, {
+				args = it.argumentString;
+			});
+			result = result ++ "%( % )%%\\l".format(
+				escapeChars.value(it.name.asString),
+				escapeChars.value(args),
+				if(it.isOverridingSuperclass, {
+					" @overrides %".format(
+						it.findOverriddenMethod.ownerClass.name)
+				}, {
+					"";
+				}),
+				if(it.isExtensionMethod, {
+					" @extension"
+				}, {
+					"";
+				})
+			);
+		});
+		^result;
+	}
 }
