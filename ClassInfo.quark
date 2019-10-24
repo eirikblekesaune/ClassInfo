@@ -1,0 +1,10 @@
+(
+  name: "ClassInfo",
+  summary: "Gives you info about classes",
+  version: "0.1",
+  schelp: "No help yet!",
+  license: "{{cookiecutter.license}}",
+  copyright: "{{cookiecutter.copyright}}",
+  ext_dependency: "dot: https://www.graphviz.org/doc/info/lang.html",
+  url: "https://github.com/blacksound/ClassInfo"
+)
