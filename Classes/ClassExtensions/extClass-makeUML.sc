@@ -88,7 +88,7 @@
 
     prCompileDotfile{arg dotfilePath, openWhenDone;
         var result;
-		"/usr/local/bin/dot % -Tpdf -O".format(dotfilePath).unixCmd({arg returnCode ...args;
+		"dot % -Tpdf -O".format(dotfilePath).unixCmd({arg returnCode ...args;
 			var imgPath;
 			if(returnCode != 0, {
 				"Error running 'dot' program".warn;
